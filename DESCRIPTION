@@ -1,0 +1,18 @@
+Package: nemo
+Type: Package
+Title: Empty circle
+Version: 0.0.0.9000
+Authors@R: person("Joel", "Gombin", email = "matai.data@gmail.com", role = c("cre", "aut"))
+Description: Find largest empty circle
+License: MIT + file LICENSE
+LazyData: true
+URL: https://github.com/mtmx/nemo
+BugReports: https://github.com/mtmx/nemo/issues
+Encoding: UTF-8
+Imports: 
+    dplyr,
+    magrittr,
+    concaveman,
+    sf,
+    nngeo
+RoxygenNote: 6.1.1
