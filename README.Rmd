@@ -32,7 +32,7 @@ if (!requireNamespace("remotes")) {
 ## install nemo for github
 remotes::install_github("mtmx/nemo")
 ```
-
+ 
 
 ## Example
 

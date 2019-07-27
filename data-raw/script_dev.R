@@ -40,3 +40,14 @@ roxygen2::roxygenise()
 
 # vérification de l'intégrité du package
 devtools::check()
+
+
+
+
+
+proj_set()
+usethis::use_rstudio()
+usethis::use_git()
+
+
+#https://kbroman.org/pkg_primer/pages/github.html
