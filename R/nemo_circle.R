@@ -63,18 +63,16 @@ nemo_circle <- function(points,
   }
 
 
-
-
   # computation of voronoi
 
   vor <- st_voronoi(x = st_union(points))
-  vor <- st_intersection(st_cast(vor), hull)
   vor_pts <- st_coordinates(st_cast(vor, "POINT"))
 
   vor_pts_hull <- vor_pts %>%
     as.data.frame() %>%
     select(x=X,y=Y) %>%
     st_as_sf(., coords = c("x", "y"), crs = st_crs(points)) %>%
+    st_intersection(hull) %>%
     mutate(id_vor = row_number())
 
   # nearest point of each voronoi vertex
