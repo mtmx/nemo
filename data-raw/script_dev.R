@@ -49,3 +49,29 @@ usethis::use_git()
 
 
 #https://kbroman.org/pkg_primer/pages/github.html
+
+data(points)
+hull_pts <-
+  nemo_hull(points = points %>% st_transform(2154),
+            concavity =2,
+            length_threshold = 10)
+
+nemo_pts <-
+  nemo_circle(points = points %>% st_transform(2154),
+              hull = hull_pts %>% st_buffer(dist=500),
+              strict_inclusion = T,
+              nmax_circles = 1)
+
+# visu ggplot
+library(ggplot2)
+ggplot() +
+  geom_sf(data = hull_pts %>% st_buffer(dist=500)  , size = 0.2) +
+  geom_sf(data = nemo_pts  ,#%>% filter(id_vor ==1)  ,
+          #aes(size = dist),
+          size = 1,
+          fill=NA,
+          color = "red") +
+  geom_sf(data = nemo_pts %>% st_centroid() ,
+             size = 1,
+             col = "red") +
+  geom_sf(data=points %>% st_transform(2154))

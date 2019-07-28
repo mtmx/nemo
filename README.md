@@ -35,6 +35,7 @@ A basic example to find the largest empty circle inside a set of points
 and its center aka the point nemo :
 
 ``` r
+library(nemo)
 data(points)
 hull_pts <-
 nemo_hull(points = points %>% st_transform(2154),
@@ -43,18 +44,27 @@ nemo_hull(points = points %>% st_transform(2154),
 
 nemo_pts <-
 nemo_circle(points = points %>% st_transform(2154),
-            hull = hull_pts,
+            hull = hull_pts %>% st_buffer(dist=500),
             strict_inclusion = T,
             nmax_circles = 1)
+#> Warning: attribute variables are assumed to be spatially constant
+#> throughout all geometries
 
 # mapping output
-library(mapview)
+library(ggplot2)
 
-mapview(list(hull_pts,
-             nemo_pts %>% filter(id_vor == 1),
-             nemo_pts %>% filter(id_vor == 1) %>% st_centroid()),
-        layer.name = c("Points",
-                       "Nemo point", 
-                       "Empty circle"),
-        fill = NA)
+ggplot() +
+  geom_sf(data = hull_pts %>% st_buffer(dist=500)  , size = 0.2) +
+  geom_sf(data = nemo_pts ,
+          size = 1,
+          fill=NA,
+          color = "red") +
+  geom_sf(data = nemo_pts %>% st_centroid() ,
+             size = 1,
+             col = "red") +
+  geom_sf(data=points %>% st_transform(2154))
+#> Warning in st_centroid.sf(.): st_centroid assumes attributes are constant
+#> over geometries of x
 ```
+
+<img src="man/figures/README-example -1.png" width="100%" />
