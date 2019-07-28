@@ -17,14 +17,14 @@ knitr::opts_chunk$set(
 `nemo` finds the [largest empty circle](https://www.cs.swarthmore.edu/~adanner/cs97/s08/papers/schuster.pdf) in the plane whose interior does not overlap with any given obstacles.
 `nemo` includes ony two functions : 
 
-- `nemo_hull` computes a concave hull from a set of points and is basically imported from package [concaveman](https://github.com/mapbox/concaveman) brought in R by [joelgombin](https://github.com/joelgombin/concaveman) )
-- `nemo_circle` computes the larget circle  inside a hull and which doesn't include any point 
+- `nemo_hull` computes a concave hull from a set of points and is basically imported from package [concaveman](https://github.com/mapbox/concaveman) brought in R by [joelgombin](https://github.com/joelgombin/concaveman)
+- `nemo_circle` computes the larget circle  inside a hull and which doesn't include any point : its center will be the point nemo
 
 ## Installation
 
 You can install the development version from [GitHub](https://github.com/mtmx/nemo) with:
 
-``` r
+``` {r eval=FALSE}
 ## install {remotes} if not already
 if (!requireNamespace("remotes")) {
   install.packages("remotes")
@@ -36,9 +36,9 @@ remotes::install_github("mtmx/nemo")
 
 ## Example
 
-A basic example to find the largest empty circle inside a set of points and its center the nemo point :
+A basic example to find the largest empty circle inside a set of points and its center aka the point nemo :
 
-```{r example}
+```{r example , eval=FALSE}
 data(points)
 hull_pts <-
 nemo_hull(points = points %>% st_transform(2154),
@@ -50,7 +50,6 @@ nemo_circle(points = points %>% st_transform(2154),
             hull = hull_pts,
             strict_inclusion = T,
             nmax_circles = 1)
-
 
 # mapping output
 library(mapview)

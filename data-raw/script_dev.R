@@ -23,8 +23,10 @@ use_mit_license(name="mtmx")
 usethis::use_package("dplyr", "magrittr","concaveman","sf", "nngeo")
 
 
+use_travis()
 
-
+#tests
+usethis::use_test("nemo_circle")
 
 library(roxygen2)
 #générer doc .Rd
@@ -40,10 +42,6 @@ roxygen2::roxygenise()
 
 # vérification de l'intégrité du package
 devtools::check()
-
-
-
-
 
 proj_set()
 usethis::use_rstudio()

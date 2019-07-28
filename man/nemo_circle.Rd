@@ -22,14 +22,13 @@ an `sf` object.
 
 }
 \examples{
-
+\donttest{
 data(points)
 nemo_pts <-
 nemo_circle(points = points \%>\% st_transform(2154),
            hull = hull_pts,
            strict_inclusion = T,
            nmax_circles = 1)
-
-
+}
 
 }

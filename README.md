@@ -11,9 +11,9 @@ in the plane whose interior does not overlap with any given obstacles.
   - `nemo_hull` computes a concave hull from a set of points and is
     basically imported from package
     [concaveman](https://github.com/mapbox/concaveman) brought in R by
-    \[@joelgombin\](<https://github.com/joelgombin/concaveman>) )
+    [joelgombin](https://github.com/joelgombin/concaveman)
   - `nemo_circle` computes the larget circle inside a hull and which
-    doesn’t include any point
+    doesn’t include any point : its center will be the point nemo
 
 ## Installation
 
@@ -31,8 +31,30 @@ remotes::install_github("mtmx/nemo")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+A basic example to find the largest empty circle inside a set of points
+and its center aka the point nemo :
 
 ``` r
-## basic example code
+data(points)
+hull_pts <-
+nemo_hull(points = points %>% st_transform(2154),
+            concavity =2,
+            length_threshold = 10)
+
+nemo_pts <-
+nemo_circle(points = points %>% st_transform(2154),
+            hull = hull_pts,
+            strict_inclusion = T,
+            nmax_circles = 1)
+
+# mapping output
+library(mapview)
+
+mapview(list(hull_pts,
+             nemo_pts %>% filter(id_vor == 1),
+             nemo_pts %>% filter(id_vor == 1) %>% st_centroid()),
+        layer.name = c("Points",
+                       "Nemo point", 
+                       "Empty circle"),
+        fill = NA)
 ```

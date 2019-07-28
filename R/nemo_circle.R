@@ -14,15 +14,14 @@
 #' @import dplyr concaveman sf nngeo magrittr
 #'
 #' @examples
-#'
+#'\donttest{
 #' data(points)
 #' nemo_pts <-
 #' nemo_circle(points = points %>% st_transform(2154),
 #'            hull = hull_pts,
 #'            strict_inclusion = T,
 #'            nmax_circles = 1)
-#'
-#'
+#'}
 #'
 #' @export
 
@@ -34,11 +33,28 @@ nemo_circle <- function(points,
   if (missing(nmax_circles)) {nmax_circles <- 1}
   if (missing(strict_inclusion)) {strict_inclusion <- TRUE}
 
+  # check if points and hull have the same projection system
+  if (st_crs(points) != st_crs(hull)) {
+    stop("Points and hull must have the same crs.")
+  }
+
+  # warning lot of points to compute
+  if (nrow(points) > 10000  ) {
+    warning("Point nemo could be hard to find, i.e. long to compute.")
+  }
+
   # clean hull
-  hull <- st_geometry(hull)
+  hull <- hull %>% summarise() %>% st_geometry()
 
   # check points format
   class(points) <- c("sf","data.frame")
+
+  # add points of hull
+  points <- st_geometry(points) %>%
+    st_sf() %>%
+    rbind(hull %>%
+            st_cast(., "POINT") %>%
+            st_sf())
 
   # computation of voronoi
 
