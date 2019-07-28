@@ -49,12 +49,21 @@ nemo_circle <- function(points,
   # check points format
   class(points) <- c("sf","data.frame")
 
-  # add points of hull
-  points <- st_geometry(points) %>%
-    st_sf() %>%
-    rbind(hull %>%
-            st_cast(., "POINT") %>%
-            st_sf())
+  # strict inclusion in hull
+  if( strict_inclusion == TRUE ) {
+    # add points of hull
+    points <- st_geometry(points) %>%
+      st_sf() %>%
+      rbind(hull %>%
+              st_cast(., "POINT") %>%
+              st_sf())
+  }
+  else {
+    points
+  }
+
+
+
 
   # computation of voronoi
 
